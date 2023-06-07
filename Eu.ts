@@ -206,8 +206,8 @@ function UtolsoCsatlakozo(utolso: EuElem[]): string {
     var maxIndex: number = 0;
   
     for (let i: number = 0; i < utolso.length; i++) {
-      const aktIndexEv: number = Number(utolso[i].csatlakozas.substring(0, 4));
-      const maxIndexEv: number = Number(utolso[maxIndex].csatlakozas.substring(0, 4));
+      var aktIndexEv: number = Number(utolso[i].csatlakozas.substring(0, 4));
+      var maxIndexEv: number = Number(utolso[maxIndex].csatlakozas.substring(0, 4));
       
       if (aktIndexEv > maxIndexEv) {
         maxIndex = i;
@@ -221,7 +221,7 @@ console.log("Az utolsó csatlakozott ország: "+utolsoOrszag)
 
 //FÜGGVÉNYEK UNIVERZÁLISSÁ TÉTELE:
 function AdottEvbenCsatlakozott(ev: string, euElemek: EuElem[]): number {
-    let adottEvbenCsatlakozokSzama: number = 0;
+    var adottEvbenCsatlakozokSzama: number = 0;
   
     for (let i = 0; i < euElemek.length; i++) {
       if (euElemek[i].csatlakozas.indexOf(ev) ===0) {
