@@ -115,14 +115,18 @@ var EuropaiUnio = [{
 function TagallamokSzama(euElemek) {
     return euElemek.length;
 }
-var tagallamokSzama = TagallamokSzama(EuropaiUnio);
-console.log("Az Európai Unió tagjainak száma: " + tagallamokSzama);
+//Frontend megjelenítő
+function TagallamokSzamaMegjelenito() {
+    console.log("Az Európai Unió tagállamainak száma: " + TagallamokSzama(EuropaiUnio));
+}
+//Függvény meghívás
+TagallamokSzamaMegjelenito();
 //2. feladat: Hány ország csatlakozott 2007-ben
 function CsatlakozottK7(csatlakozott) {
     var k7 = 0;
-    for (var i = 0; i < EuropaiUnio.length; i++) {
+    for (var i = 0; i < csatlakozott.length; i++) {
         //if(EuropaiUnio[i].csatlakozas.substr(0,4)=="2007")
-        if (EuropaiUnio[i].csatlakozas.includes("2007")) 
+        if (csatlakozott[i].csatlakozas.substr(0, 4) == "2007") 
         //if(EuropaiUnio[i].csatlakozas.startsWith("2007"))
         {
             k7++;
@@ -130,45 +134,54 @@ function CsatlakozottK7(csatlakozott) {
     }
     return k7;
 }
-var csatlakozottOrszag = CsatlakozottK7(EuropaiUnio);
-console.log("2007-ben csatlakozott " + csatlakozottOrszag + " ország");
+//Frontend rész 
+function CsatlakozottK7Megjelenito() {
+    console.log("A 2007-ben csatlakozott országok száma: " + CsatlakozottK7(EuropaiUnio));
+}
+//Frontend függvény meghívása
+CsatlakozottK7Megjelenito();
 //3. feladat: Csatlakozott-e magyarország, az európai uniohoz?
-function CsatlakozottEMagyarorszag(Hungary) {
+function CsatlakozottEMagyarorszag(euElemek) {
     var csatlakozottE = false;
-    for (var i = 0; i < EuropaiUnio.length; i++) {
-        if (EuropaiUnio[i].orszag === "Magyarország") {
+    for (var i = 0; i < euElemek.length; i++) {
+        if (euElemek[i].orszag === "Magyarország") {
             csatlakozottE = true;
         }
     }
     return csatlakozottE;
 }
-var Magyarorszag = CsatlakozottEMagyarorszag(EuropaiUnio);
-console.log("Csatlakozott e Magyarország: " + Magyarorszag);
-/*function Eredmenykiir(logikaiVizsgalat:boolean, igazUzenet:string, hamisUzenet:string):void
-{
-    if(logikaiVizsgalat==true)
-    {
-        console.log(igazUzenet);
+//Frontend rész 
+function CsatlakozottEMagyarorszagMegjelenito(allitas) {
+    if (allitas == true) {
+        console.log("Magyarország csatlakozott az EU-hoz.");
     }
-    else
-    {
-        console.log(hamisUzenet);
+    else {
+        console.log("Magyarország NEM csatlakozott az EU-hoz.");
     }
 }
-Eredmenykiir(CsatlakozottEMagyarorszag(), "Magyarország csatlakozott", "Magyarország NEM csatlakozott");*/
+//Frontend függvény meghívása
+CsatlakozottEMagyarorszagMegjelenito(CsatlakozottEMagyarorszag(EuropaiUnio));
 //4. feladat: Volt-e májusban csatlakozó az európai unióhoz?
 function VoltEMajusiCsatlakozo(majus) {
     var voltEcsatlakozo = false;
-    for (var i = 0; i < EuropaiUnio.length; i++) {
-        if (EuropaiUnio[i].csatlakozas.includes(".05.")) {
+    for (var i = 0; i < majus.length; i++) {
+        if (majus[i].csatlakozas.substr(5, 2) == "05") {
             voltEcsatlakozo = true;
         }
     }
     return voltEcsatlakozo;
 }
-var Majus = VoltEMajusiCsatlakozo(EuropaiUnio);
-console.log("Volt e májusi csatlakozó? " + Majus);
-//Eredmenykiir(VoltEMajusiCsatlakozo(), "Volt májusi csatlakozó", "NEM volt májusi csatlakozó");
+//Frontend rész
+function VoltEMajusiMegjelenito(allitas) {
+    if (allitas == true) {
+        console.log("Volt májusban csatlakozó");
+    }
+    else {
+        console.log("NEM volt májusban csatlakozó");
+    }
+}
+//Frontend függvény meghívása
+VoltEMajusiMegjelenito(VoltEMajusiCsatlakozo(EuropaiUnio));
 //Extra májusban csatlakozó ország listája
 function MajusiCsatlakozok(majus) {
     var majusiak = [];
@@ -191,10 +204,15 @@ function UtolsoCsatlakozo(utolso) {
             maxIndex = i;
         }
     }
-    return utolso[maxIndex].orszag;
+    return maxIndex;
 }
-var utolsoOrszag = UtolsoCsatlakozo(EuropaiUnio);
-console.log("Az utolsó csatlakozott ország: " + utolsoOrszag);
+//Frontend rész megjelenítő
+function UtolsoCsatlakozoMegjelenito(orszagIndex) {
+    console.log("Legutolsó csatlakozó ország neve: " + EuropaiUnio[orszagIndex].orszag);
+    console.log("Legutolsó csatlakozó ország csatlakozásának dátuma: " + EuropaiUnio[orszagIndex].csatlakozas);
+}
+//Frontend függvény meghívás
+UtolsoCsatlakozoMegjelenito(UtolsoCsatlakozo(EuropaiUnio));
 //FÜGGVÉNYEK UNIVERZÁLISSÁ TÉTELE:
 function AdottEvbenCsatlakozott(ev, euElemek) {
     var adottEvbenCsatlakozokSzama = 0;
@@ -219,38 +237,47 @@ function CsatlakozottEAdottOrszag(orszag, euElemek) {
 }
 var orszagCsatlakozott = CsatlakozottEAdottOrszag("Magyarország", EuropaiUnio);
 console.log(orszagCsatlakozott);
-//6. feladat: Statisztika csatlakozási dátumokról
-function Statisztika(EuElemek) {
-    var csatlakozasiEvek = [];
-    for (var i = 0; i < EuElemek.length; i++) {
+function Statisztika(orszagLista) {
+    var evLista = [];
+    for (var i = 0; i < orszagLista.length; i++) {
         var szerepelE = false;
-        for (var j = 0; j < csatlakozasiEvek.length; j++) {
-            if (csatlakozasiEvek[j] == EuElemek[i].csatlakozas.substring(0, 4)) {
+        for (var j = 0; j < evLista.length; j++) {
+            if (evLista[j] == orszagLista[i].csatlakozas.substring(0, 4)) {
                 szerepelE = true;
-                break;
             }
         }
-        if (!szerepelE) {
-            csatlakozasiEvek.push(EuElemek[i].csatlakozas.substring(0, 4));
+        if (szerepelE == false) {
+            evLista.push(orszagLista[i].csatlakozas.substring(0, 4));
         }
     }
     // Évek sorba rendezése
-    csatlakozasiEvek.sort();
-    // Segédtömb létrehozás és feltöltés
-    var csatlakozasiEvekSeged = [];
-    for (var i = 0; i < csatlakozasiEvek.length; i++) {
-        csatlakozasiEvekSeged.push(0);
+    evLista.sort();
+    // 2. lépés: Csatlakozások megszámolása dátum alapján
+    var evListaSeged = [];
+    for (var i = 0; i < orszagLista.length; i++) {
+        evListaSeged.push(0);
     }
-    // Kiválogatott évek megszámlálása
-    for (var i = 0; i < EuElemek.length; i++) {
-        for (var j = 0; j < csatlakozasiEvek.length; j++) {
-            if (csatlakozasiEvek[j] == EuElemek[i].csatlakozas.substr(0, 4)) {
-                csatlakozasiEvekSeged[j]++;
+    for (var i = 0; i < orszagLista.length; i++) {
+        for (var j = 0; j < evLista.length; j++) {
+            if (evLista[j] == orszagLista[i].csatlakozas.substring(0, 4)) {
+                evListaSeged[j]++;
             }
         }
     }
-    for (var i = 0; i < csatlakozasiEvek.length; i++) {
-        console.log(csatlakozasiEvek[i] + ":" + csatlakozasiEvekSeged[i]);
+    //3. létrehozzuk az objektum típusú tömböt
+    var EvekStatisztika = [];
+    for (var i = 0; i < evLista.length; i++) {
+        var objektumElem = {
+            ev: Number(evLista[i]),
+            csatlakozottakSzama: evListaSeged[i]
+        };
+        EvekStatisztika.push(objektumElem);
+    }
+    return EvekStatisztika;
+}
+function StatisztikaMegjelenito(megjelenitendoObjektum) {
+    for (var i = 0; i < megjelenitendoObjektum.length; i++) {
+        console.log("Csatlakozas eve: " + megjelenitendoObjektum[i].ev + "," + megjelenitendoObjektum[i].csatlakozottakSzama + " db ország");
     }
 }
-var statisztika1 = Statisztika(EuropaiUnio);
+StatisztikaMegjelenito(Statisztika(EuropaiUnio));

@@ -1,4 +1,4 @@
-var EuropaiUnio:any[] = [{
+var EuropaiUnio:EuElem[] = [{
     orszag: "Ausztria",
     csatlakozas: "1995.01.01"
 },
@@ -122,16 +122,19 @@ function TagallamokSzama(euElemek: EuElem[]): number {
     return euElemek.length;
 }
 
-var tagallamokSzama: number = TagallamokSzama(EuropaiUnio);
-console.log("Az Európai Unió tagjainak száma: " + tagallamokSzama);
-
+//Frontend megjelenítő
+function TagallamokSzamaMegjelenito():void{
+  console.log("Az Európai Unió tagállamainak száma: "+TagallamokSzama(EuropaiUnio));
+}
+//Függvény meghívás
+TagallamokSzamaMegjelenito();
   //2. feladat: Hány ország csatlakozott 2007-ben
 function CsatlakozottK7(csatlakozott:EuElem[]):number{
 	var k7:number=0;
-    for(let i:number=0;i<EuropaiUnio.length;i++)
+    for(let i:number=0;i<csatlakozott.length;i++)
     {
     	//if(EuropaiUnio[i].csatlakozas.substr(0,4)=="2007")
-        if(EuropaiUnio[i].csatlakozas.includes("2007"))
+        if(csatlakozott[i].csatlakozas.substr(0,4)=="2007")
         //if(EuropaiUnio[i].csatlakozas.startsWith("2007"))
         {
         	k7++;
@@ -139,40 +142,42 @@ function CsatlakozottK7(csatlakozott:EuElem[]):number{
     }
     return k7;
 }
-var csatlakozottOrszag:number=CsatlakozottK7(EuropaiUnio);
-console.log("2007-ben csatlakozott "+csatlakozottOrszag+" ország")
+//Frontend rész 
+function CsatlakozottK7Megjelenito():void{
+  console.log("A 2007-ben csatlakozott országok száma: "+CsatlakozottK7(EuropaiUnio));
+}
+//Frontend függvény meghívása
+CsatlakozottK7Megjelenito();
+
 //3. feladat: Csatlakozott-e magyarország, az európai uniohoz?
-function CsatlakozottEMagyarorszag(Hungary:EuElem[]):boolean{
+function CsatlakozottEMagyarorszag(euElemek:EuElem[]):boolean{
 	var csatlakozottE:boolean=false;
-    for(let i:number=0;i<EuropaiUnio.length;i++){
-    	if(EuropaiUnio[i].orszag==="Magyarország")
+    for(let i:number=0;i<euElemek.length;i++){
+    	if(euElemek[i].orszag==="Magyarország")
         {
         	csatlakozottE=true;
         }
     }
     return csatlakozottE;
 }
-var Magyarorszag:boolean=CsatlakozottEMagyarorszag(EuropaiUnio);
-console.log ("Csatlakozott e Magyarország: "+Magyarorszag);
-/*function Eredmenykiir(logikaiVizsgalat:boolean, igazUzenet:string, hamisUzenet:string):void
-{
-	if(logikaiVizsgalat==true)
-    {
-    	console.log(igazUzenet);
-    }
-    else
-    {
-    	console.log(hamisUzenet);
-    }    
+//Frontend rész 
+function CsatlakozottEMagyarorszagMegjelenito(allitas:boolean):void{
+  if(allitas==true){
+  console.log("Magyarország csatlakozott az EU-hoz.");
 }
-Eredmenykiir(CsatlakozottEMagyarorszag(), "Magyarország csatlakozott", "Magyarország NEM csatlakozott");*/
+else{
+  console.log("Magyarország NEM csatlakozott az EU-hoz.");
+}
+}
+//Frontend függvény meghívása
+CsatlakozottEMagyarorszagMegjelenito(CsatlakozottEMagyarorszag(EuropaiUnio));
 
 //4. feladat: Volt-e májusban csatlakozó az európai unióhoz?
 function VoltEMajusiCsatlakozo(majus:EuElem[]):boolean{
 	var voltEcsatlakozo:boolean=false;
-    for(let i=0;i<EuropaiUnio.length; i++)
+    for(let i=0;i<majus.length; i++)
     {
-    	if(EuropaiUnio[i].csatlakozas.includes(".05."))
+    	if(majus[i].csatlakozas.substr(5,2)=="05")
         {
         	voltEcsatlakozo=true;
         }
@@ -180,10 +185,18 @@ function VoltEMajusiCsatlakozo(majus:EuElem[]):boolean{
     return voltEcsatlakozo;
 }
 
-var Majus:boolean=VoltEMajusiCsatlakozo(EuropaiUnio);
-console.log("Volt e májusi csatlakozó? "+Majus);
+//Frontend rész
 
-//Eredmenykiir(VoltEMajusiCsatlakozo(), "Volt májusi csatlakozó", "NEM volt májusi csatlakozó");
+function VoltEMajusiMegjelenito(allitas:boolean):void{
+  if(allitas==true){
+  console.log("Volt májusban csatlakozó");
+}
+else{
+  console.log("NEM volt májusban csatlakozó");
+}
+}
+//Frontend függvény meghívása
+VoltEMajusiMegjelenito(VoltEMajusiCsatlakozo(EuropaiUnio));
 
 //Extra májusban csatlakozó ország listája
 function MajusiCsatlakozok(majus:EuElem[]): string[] {
@@ -202,7 +215,7 @@ console.log("A májusban csatlakozott országok: "+majusiOrszagok);
 
 
 //5. az utolsó csatlakozott ország:
-function UtolsoCsatlakozo(utolso: EuElem[]): string {
+function UtolsoCsatlakozo(utolso: EuElem[]): number {
     var maxIndex: number = 0;
   
     for (let i: number = 0; i < utolso.length; i++) {
@@ -213,11 +226,16 @@ function UtolsoCsatlakozo(utolso: EuElem[]): string {
         maxIndex = i;
       }
     }
-  
-    return utolso[maxIndex].orszag;
+
+    return maxIndex;
   }
-var utolsoOrszag:string=UtolsoCsatlakozo(EuropaiUnio);
-console.log("Az utolsó csatlakozott ország: "+utolsoOrszag)
+//Frontend rész megjelenítő
+function UtolsoCsatlakozoMegjelenito(orszagIndex:number):void{
+  console.log("Legutolsó csatlakozó ország neve: "+EuropaiUnio[orszagIndex].orszag)
+  console.log("Legutolsó csatlakozó ország csatlakozásának dátuma: "+EuropaiUnio[orszagIndex].csatlakozas)
+}
+//Frontend függvény meghívás
+UtolsoCsatlakozoMegjelenito(UtolsoCsatlakozo(EuropaiUnio));
 
 //FÜGGVÉNYEK UNIVERZÁLISSÁ TÉTELE:
 function AdottEvbenCsatlakozott(ev: string, euElemek: EuElem[]): number {
@@ -250,41 +268,56 @@ function CsatlakozottEAdottOrszag(orszag: string, euElemek: EuElem[]): boolean {
   console.log(orszagCsatlakozott);
 
   //6. feladat: Statisztika csatlakozási dátumokról
-  function Statisztika(EuElemek: EuElem[]): void{
-    var csatlakozasiEvek: string[] = [];
-    for (let i: number = 0; i < EuElemek.length; i++) {
+interface StatiszkikaAdat{
+  ev:number;
+  csatlakozottakSzama:number;
+}
+
+
+  function Statisztika(orszagLista: EuElem[]): StatiszkikaAdat[]{
+    var evLista: string[] = [];
+    for (let i: number = 0; i < orszagLista.length; i++) {
       var szerepelE: boolean = false;
-      for (let j: number = 0; j < csatlakozasiEvek.length; j++) {
-        if (csatlakozasiEvek[j] == EuElemek[i].csatlakozas.substring(0, 4)) {
+      for (let j: number = 0; j < evLista.length; j++) {
+        if (evLista[j] == orszagLista[i].csatlakozas.substring(0, 4)) {
           szerepelE = true;
-          break;
         }
       }
-      if (!szerepelE) {
-        csatlakozasiEvek.push(EuElemek[i].csatlakozas.substring(0, 4));
+      if (szerepelE==false) {
+        evLista.push(orszagLista[i].csatlakozas.substring(0, 4));
       }
     }
   
     // Évek sorba rendezése
-    csatlakozasiEvek.sort();
-  
-    // Segédtömb létrehozás és feltöltés
-    let csatlakozasiEvekSeged: number[] = [];
-    for (let i: number = 0; i < csatlakozasiEvek.length; i++) {
-      csatlakozasiEvekSeged.push(0);
+    evLista.sort();
+    // 2. lépés: Csatlakozások megszámolása dátum alapján
+    var evListaSeged: number[] = [];
+    for(let i:number=0;i<orszagLista.length;i++){
+      evListaSeged.push(0);
     }
-  
-    // Kiválogatott évek megszámlálása
-    for (let i: number = 0; i < EuElemek.length; i++) {
-      for (let j: number = 0; j < csatlakozasiEvek.length; j++) {
-        if (csatlakozasiEvek[j] == EuElemek[i].csatlakozas.substr(0, 4)) {
-          csatlakozasiEvekSeged[j]++;
-        }
-      }
+    for (let i: number = 0; i < orszagLista.length; i++) {
+      for(let j:number = 0;j< evLista.length;j++){
+      if (evLista[j] == orszagLista[i].csatlakozas.substring(0, 4)) {
+        evListaSeged[j]++;
     }
-  
-    for(let i:number=0;i<csatlakozasiEvek.length;i++){
-        console.log(csatlakozasiEvek[i]+":"+csatlakozasiEvekSeged[i]); 
- }
+  }
 }
-  var statisztika1: void = Statisztika(EuropaiUnio);
+//3. létrehozzuk az objektum típusú tömböt
+  var EvekStatisztika:StatiszkikaAdat[]=[];
+  for(let i:number=0;i<evLista.length;i++){
+    var objektumElem:StatiszkikaAdat={
+      ev:Number(evLista[i]),
+      csatlakozottakSzama:evListaSeged[i]
+    };
+    EvekStatisztika.push(objektumElem);
+  }
+  return EvekStatisztika;
+}
+//Frontend rész
+function StatisztikaMegjelenito(megjelenitendoObjektum:StatiszkikaAdat[]):void{
+  for(let i:number=0;i<megjelenitendoObjektum.length;i++)
+{
+  console.log("Csatlakozas eve: "+megjelenitendoObjektum[i].ev+","+megjelenitendoObjektum[i].csatlakozottakSzama+" db ország");
+}}
+//Megjelenítő
+StatisztikaMegjelenito(Statisztika(EuropaiUnio));
